@@ -1,6 +1,6 @@
 <template>
   <v-app>
-     <!-- メインコンテンツコンテナ(フォーム含む)　カード内　タイトル中央、ボタン中央-->
+    <!-- メインコンテンツ -->
     <v-main class="d-flex align-center justify-center" style="background-color: #f5f5f5; min-height: 100vh;">
       <v-card class="pa-10" elevation="3" style="width: 500px;">
         <v-card-title class="text-h4 text-center">ログイン</v-card-title>
@@ -22,6 +22,8 @@
               outlined
               class="mt-4"
             ></v-text-field>
+            <!-- パスワードリセットリンク -->
+            <v-btn @click="goToResetPassword" text small class="mt-2" block>パスワードを忘れた場合はこちら</v-btn>
             <!-- ボタン配置 -->
             <v-row justify="center" class="mt-6">
               <v-col cols="12" sm="6">
@@ -43,51 +45,50 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
-  import { useRouter } from 'vue-router'
-  import { useNuxtApp } from '#app'
-  import { signInWithEmailAndPassword } from 'firebase/auth'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useNuxtApp } from '#app'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
-  const email = ref('')
-  const password = ref('')
-  const router = useRouter()
-  const { $auth } = useNuxtApp()
-  const snackbar = ref({
-    show: false,
-    message: '',
-    color: '',
-    timeout: 3000 
-  })
+const email = ref('')
+const password = ref('')
+const router = useRouter()
+const { $auth } = useNuxtApp()
+const snackbar = ref({
+  show: false,
+  message: '',
+  color: '',
+  timeout: 3000 
+})
 
-  // ログイン処理
-  const handleLogin = async () => {
-    try {
-      // Firebaseのメールとパスワードでサインイン
-      await signInWithEmailAndPassword($auth, email.value, password.value)
-      // 成功時
-      showSnackbar('ログインに成功しました！', 'success')
-      await router.push('/tasks')
-    } catch (error) {
-      // エラーハンドリング
-      let message = 'ログインエラー: '
-      if (error.code === 'auth/invalid-credential') {
-        message += 'ユーザーが見つかりません。アカウントを作成してください。'
-      } else {
-        message += error.message
-      }
-      showSnackbar(message, 'error')
+const handleLogin = async () => {
+  try {
+    await signInWithEmailAndPassword($auth, email.value, password.value)
+    showSnackbar('ログインに成功しました！', 'success')
+    //await router.push('/tasks')
+    await router.push('IncomeExpenseForm')
+  } catch (error) {
+    let message = 'ログインエラー: '
+    if (error.code === 'auth/invalid-credential') {
+      message += 'ユーザーが見つかりません。アカウントを作成してください。'
+    } else {
+      message += error.message
     }
+    showSnackbar(message, 'error')
   }
+}
 
-  // サインアップページへの遷移処理
-  const goToSignUp = () => {
-    router.push('/signup')
-  }
+const goToSignUp = () => {
+  router.push('/signup')
+}
 
-  // スナックバー表示勝利
-  const showSnackbar = (message, color) => {
-    snackbar.value.message = message
-    snackbar.value.color = color
-    snackbar.value.show = true
-  }
+const goToResetPassword = () => {
+  router.push('/reset-password')
+}
+
+const showSnackbar = (message, color) => {
+  snackbar.value.message = message
+  snackbar.value.color = color
+  snackbar.value.show = true
+}
 </script>

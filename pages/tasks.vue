@@ -1,5 +1,10 @@
 <template>
   <v-app>
+    <v-app-bar app>
+      <v-toolbar-title>タスク管理</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn text @click="logout">ログアウト</v-btn>
+    </v-app-bar>
     <v-main>
       <v-container class="ma-5">
         <v-card class="pa-6 mb-6" elevation="2">
@@ -69,6 +74,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { useNuxtApp } from '#app'
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { useRouter } from 'vue-router'
+import { signOut } from 'firebase/auth'
 
 // middleware/auth.js
 definePageMeta({
@@ -79,6 +86,7 @@ const taskTitle = ref('')
 const tasks = ref([])
 const filter = ref('すべて')
 const { $db, $auth } = useNuxtApp()
+const router = useRouter()
 
 // タスク追加処理
 const addTask = async () => {
@@ -139,6 +147,16 @@ const filteredTasks = computed(() => {
 
 // コンポーネントがマウントされたときにタスクを取得
 onMounted(fetchTasks)
+
+// ログアウト処理
+const logout = async () => {
+  try {
+    await signOut($auth)
+    router.push('/login')
+  } catch (error) {
+    alert('ログアウトに失敗しました: ' + error.message)
+  }
+}
 </script>
 
 <style scoped>
