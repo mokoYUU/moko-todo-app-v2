@@ -1,18 +1,19 @@
 
 # MokoTodoApp
 
-MokoTodoAppは、Nuxt.js 3.xとVuetifyを使用して構築されたシンプルなTo-Doアプリケーションです。このアプリケーションでは、Firebase Authenticationを使用したユーザー認証と、Firebase Firestoreを使用したタスクの保存・管理を行います。
+MokoTodoAppは、Nuxt.js 3.xとVuetifyを使用して構築されたシンプルなTo-Doアプリケーションです。このアプリケーションでは、Firebase Authenticationを使用したユーザー認証と、Firebase Firestoreを使用したタスクや収支の管理が可能です。
 
 ## 使用技術
 
-- **Nuxt.js 3.x**: Vue.jsフレームワークをベースにした、サーバサイドレンダリングおよび静的サイトジェネレータ。
-- **Vuetify**: Vue.js向けのUIライブラリで、美しく機能的なマテリアルデザインコンポーネントを提供。
-- **Firebase Authentication**: メールアドレスとパスワードによるユーザー認証を実装。
-- **Firebase Firestore**: NoSQLドキュメントデータベースで、リアルタイムのデータ同期を提供。
+- **Nuxt.js 3.x**: Vue.jsフレームワークをベースにしたサーバーサイドレンダリングおよび静的サイトジェネレーター。
+- **Vuetify**: Vue.js向けのマテリアルデザインコンポーネントライブラリ。
+- **Firebase Authentication**: ユーザー認証。
+- **Firebase Firestore**: データの保存および管理を行うNoSQLデータベース。
 
-## Firebase設定
+## セットアップ
 
-Firebaseコンソールでプロジェクトを作成し、Firebase AuthenticationとFirestoreを有効にし、firebaseConfig.tsファイルに自分のプロジェクトの設定を追加します。
+1. Firebaseコンソールでプロジェクトを作成し、AuthenticationとFirestoreを有効にします。
+2. `firebaseConfig.ts`ファイルにプロジェクトの設定を追加します。
 
 ```typescript
 // firebaseConfig.ts
@@ -89,16 +90,3 @@ firebase deploy
 - **タスクの完了**: 緑色の完了チェックボックスをクリックしてタスクを完了済みにします。
 - **タスクの削除**: 赤色の削除ボタンをクリックしてタスクを削除します。
 - **タスクのフィルタリング**: タスクフィルタードロップダウンで「すべて」「未完了」「完了」を選択し、タスクをフィルタリングします。
-
-
-## 依存関係
-
-- **Nuxt.js**: ^3.0.0
-- **Vuetify**: ^3.0.0
-- **Firebase**: ^9.0.0
-- **Vue Router**: ^4.0.0
-- **TypeScript**: ^4.0.0
-
-## デモ
-
-アプリのデモは以下のURLで利用できます: [MokoTodoApp](https://mokotodoapp-469c4.web.app/login)
